@@ -15,7 +15,7 @@
 Object::Object(std::string tex) {
 	if (tex != "") {
 		texturePath = tex;
-		LoadTexture();
+		//LoadTexture();
 		hasTexture = true;
 	}
 
@@ -27,12 +27,7 @@ Object::Object(std::string tex) {
 void Object::Update(GLuint program, float deltaTime, glm::mat4 &viewMatrix, glm::mat4 &proj_matrix) 
 {
 
-	if (hasTexture)
-	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glUniform1i(glGetUniformLocation(program, "tex"), 0);
-	}
+	
 
 	glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), position);
 	modelMatrix = glm::rotate(modelMatrix, rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -52,6 +47,12 @@ void Object::Update(GLuint program, float deltaTime, glm::mat4 &viewMatrix, glm:
 	glUniform1f(glGetUniformLocation(program, "random"), 0);
 	//printf("Random number is: %f", random);
 
+	if (hasTexture)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glUniform1i(glGetUniformLocation(program, "tex"), 0);
+	}
 
 
 	mesh.Draw();
@@ -61,20 +62,27 @@ void Object::LoadTexture()
 {
 	string name = texturePath;
 	glGenTextures(1, &texture);
+	
+	//glCreateTextures(GL_TEXTURE_2D, 1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
 
 	int iWidth, iHeight, iChannels;
 	unsigned char* iData = stbi_load(name.c_str(), &iWidth, &iHeight, &iChannels, 0);
 
-	glBindTexture(GL_TEXTURE_2D, texture); 
+	//glBindTexture(GL_TEXTURE_2D, texture); 
 
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGBA8, iWidth, iHeight);
+	//glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8, iWidth, iHeight);
 
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, iWidth, iHeight, GL_RGBA, GL_UNSIGNED_BYTE, iData);
+	//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, iWidth, iHeight, GL_RGB, GL_UNSIGNED_BYTE, iData);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, iWidth, iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, iData);
 
-	/*
+	glTexStorage2D(GL_TEXTURE_2D, 1, GL_RGB8, iWidth, iHeight);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, iWidth, iHeight, GL_RGB, GL_UNSIGNED_BYTE, iData);
+
+	
 	// This only works for 2D Textures...
 	// Set the texture wrapping parameters (next lecture)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	// Set texture filtering parameters (next lecture)
@@ -82,8 +90,8 @@ void Object::LoadTexture()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// Generate mipmaps (next lecture)
-	glGenerateMipmap(GL_TEXTURE_2D);
-	*/
+	glGenerateMipmap(GL_TEXTURE_2D);*/
+	
 }
 
 void Object::Load(string path)

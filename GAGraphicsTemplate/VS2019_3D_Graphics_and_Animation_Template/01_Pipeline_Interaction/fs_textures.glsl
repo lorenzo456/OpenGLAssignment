@@ -13,6 +13,7 @@ uniform float deltaTime;
 layout(binding=0) uniform sampler2D tex;
 
 void main(void){
-    color = texture(tex, fs_in.tc);
+	//color = vec4((texture(tex, vec2(0.5,0.5)).xyz), 1.0);
+	color = vec4(1.0,texture(tex, fs_in.tc).xy, 1.0);
 	//color = vec4(fs_in.normals, 1.0);
 }

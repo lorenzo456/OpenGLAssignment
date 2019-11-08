@@ -81,8 +81,8 @@ GLfloat			lastY = windowHeight / 2.0f;	// start middle screen
 bool			firstMouse = true;
 
 //Create Objects
-Object testObject = Object("woodTexture.png");
-Object testObject1 = Object("outUV.png");
+Object testObject = Object("woodTexture1.jpg");
+Object testObject1;
 
 int main()
 {
@@ -186,6 +186,7 @@ void startup() {
 
 	// Load objects
 	testObject.Load("Character1.obj");
+	testObject.LoadTexture();
 	testObject.SetPostion(glm::vec3(0.0f, 0.0f, 0.0f));
 	testObject1.Load("cape1.obj");
 	testObject1.SetPostion(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -200,7 +201,7 @@ void startup() {
 	waveShaderProgram = glCreateProgram();
 	Shader waveVertexShader = Shader("vs_wave.glsl", GL_VERTEX_SHADER);
 	glAttachShader(waveShaderProgram, waveVertexShader.ReturnShader());
-	Shader fragmentShader = Shader("fs_textures.glsl", GL_FRAGMENT_SHADER);
+	Shader fragmentShader = Shader("fs_model.glsl", GL_FRAGMENT_SHADER);
 	glAttachShader(waveShaderProgram, fragmentShader.ReturnShader());
 
 	//Link Shaders

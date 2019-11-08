@@ -21,7 +21,7 @@ private:
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
-	GLuint	texture;
+	GLuint	texture; 
 	bool	hasTexture;
 	std::string texturePath;
 };
